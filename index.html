@@ -264,10 +264,22 @@
 
   /* contact */
   .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .contact-item{ border:1px solid var(--line); border-radius:8px; padding:12px 14px; background:#fbfbfc; }
+  .contact-item{ display:flex; align-items:center; gap:12px; border:1px solid var(--line); border-radius:8px; padding:12px 14px; background:#fbfbfc; }
+  .contact-item.highlight{ background:#edf4ff; border-color:#cfe0ff; }
   .contact-item .k{ font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-family:'IBM Plex Mono', monospace; }
   .contact-item .v{ font-size:14px; margin-top:3px; font-weight:500; }
   .contact-item a{ color:var(--blue); text-decoration:none; }
+  .contact-icon{
+    width:34px; height:34px; border-radius:8px; flex:none;
+    display:flex; align-items:center; justify-content:center;
+    font-size:15px; font-weight:700; font-family:'IBM Plex Sans', sans-serif;
+  }
+  .contact-icon.email{ background:#dbeafe; color:#2563eb; }
+  .contact-icon.linkedin{ background:#2563eb; color:#fff; font-style:italic; }
+  .contact-icon.schedule{ background:#d1fae5; color:#059669; }
+  .contact-icon.location{ background:#e5e7eb; color:#374151; }
+  .contact-icon.github{ background:var(--ink); color:#fff; font-size:12px; }
+  .contact-icon.medium{ background:var(--ink); color:#fff; font-size:16px; }
 
   footer{
     max-width:1180px; margin:0 auto; padding:20px 32px 40px;
@@ -857,8 +869,8 @@
             <div class="school">University of North Texas</div>
           </div>
           <div class="edu">
-            <div class="deg">B.Tech &mdash; Computer Science &amp; Engineering</div>
-            <div class="school">(fill in undergraduate institution)</div>
+            <div class="deg">B.Tech &mdash; Mechanical Engineering</div>
+            <div class="school">JNTUH College of Engineering, Jagityala &middot; Jul 2017 &ndash; May 2021</div>
           </div>
         </div>
       </div>
@@ -869,10 +881,30 @@
       <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:21 (&lt;1s)</span><span class="idx">9</span></div>
       <div class="cell-body">
         <div class="contact-grid">
-          <div class="contact-item"><div class="k">Email</div><div class="v"><a href="mailto:domakondashyamsudnar@gmail.com">domakondashyamsudnar@gmail.com</a></div></div>
-          <div class="contact-item"><div class="k">LinkedIn</div><div class="v"><a href="https://www.linkedin.com/in/shyam-sundar-domakonda" target="_blank" rel="noopener">linkedin.com/in/shyam-sundar-domakonda</a></div></div>
-          <div class="contact-item"><div class="k">GitHub</div><div class="v"><a href="https://github.com/ShyamSundar29" target="_blank" rel="noopener">github.com/ShyamSundar29</a></div></div>
-          <div class="contact-item"><div class="k">Medium</div><div class="v"><a href="https://medium.com/@domakondashyamsundar" target="_blank" rel="noopener">medium.com/@domakondashyamsundar</a></div></div>
+          <div class="contact-item">
+            <div class="contact-icon email">&#9993;</div>
+            <div><div class="k">Email</div><div class="v"><a href="mailto:domakondashyamsudnar@gmail.com">domakondashyamsudnar@gmail.com</a></div></div>
+          </div>
+          <div class="contact-item highlight">
+            <div class="contact-icon linkedin">in</div>
+            <div><div class="k">LinkedIn</div><div class="v"><a href="https://www.linkedin.com/in/shyam-sundar-domakonda" target="_blank" rel="noopener">linkedin.com/in/shyam-sundar-domakonda</a></div></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon schedule">&#128197;</div>
+            <div><div class="k">Schedule a Meeting</div><div class="v"><a href="https://calendly.com/shyamsundar0329" target="_blank" rel="noopener">Book a time on Calendly</a></div></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon location">&#128205;</div>
+            <div><div class="k">Location</div><div class="v">Texas, USA</div></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon github">GH</div>
+            <div><div class="k">GitHub</div><div class="v"><a href="https://github.com/ShyamSundar29" target="_blank" rel="noopener">github.com/ShyamSundar29</a></div></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon medium">M</div>
+            <div><div class="k">Medium</div><div class="v"><a href="https://medium.com/@domakondashyamsundar" target="_blank" rel="noopener">medium.com/@domakondashyamsundar</a></div></div>
+          </div>
         </div>
       </div>
     </div>
