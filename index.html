@@ -281,6 +281,26 @@
   .contact-icon.github{ background:var(--ink); color:#fff; font-size:12px; }
   .contact-icon.medium{ background:var(--ink); color:#fff; font-size:16px; }
 
+  @keyframes contactIn{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:translateY(0); } }
+  @keyframes pulseDot{ 0%,100%{ box-shadow:0 0 0 0 rgba(36,161,72,.35); } 50%{ box-shadow:0 0 0 5px rgba(36,161,72,0); } }
+  .contact-item{
+    cursor:pointer;
+    animation:contactIn .45s cubic-bezier(.2,.7,.3,1) both;
+    transition:transform .18s cubic-bezier(.2,.7,.3,1), border-color .18s ease, box-shadow .18s ease;
+  }
+  .contact-item:hover{ transform:translateY(-3px); border-color:var(--blue); }
+  .contact-item:nth-child(1){ animation-delay:.02s; }
+  .contact-item:nth-child(2){ animation-delay:.06s; }
+  .contact-item:nth-child(3){ animation-delay:.10s; }
+  .contact-item:nth-child(4){ animation-delay:.14s; }
+  .contact-item:nth-child(5){ animation-delay:.18s; }
+  .contact-item:nth-child(6){ animation-delay:.22s; }
+  .contact-icon{ transition:transform .25s cubic-bezier(.34,1.56,.64,1); }
+  .contact-item:hover .contact-icon{ transform:scale(1.08) rotate(-4deg); }
+  .contact-item .v{ transition:color .2s ease; }
+  .live-dot{ display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--ok); margin:0 4px; animation:pulseDot 2s infinite; vertical-align:middle; }
+  .live-label{ font-size:10px; color:var(--ok); font-family:'IBM Plex Mono', monospace; text-transform:none; letter-spacing:0; }
+
   footer{
     max-width:1180px; margin:0 auto; padding:20px 32px 40px;
     display:flex; justify-content:space-between; align-items:center;
@@ -880,30 +900,30 @@
     <div class="cell">
       <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:21 (&lt;1s)</span><span class="idx">9</span></div>
       <div class="cell-body">
-        <div class="contact-grid">
-          <div class="contact-item">
+        <div class="contact-grid" id="contact-grid">
+          <div class="contact-item" id="contact-email">
             <div class="contact-icon email">&#9993;</div>
-            <div><div class="k">Email</div><div class="v"><a href="mailto:domakondashyamsudnar@gmail.com">domakondashyamsudnar@gmail.com</a></div></div>
+            <div><div class="k">Email</div><div class="v" id="contact-email-val"><a href="mailto:domakondashyamsudnar@gmail.com">domakondashyamsudnar@gmail.com</a></div></div>
           </div>
           <div class="contact-item highlight">
             <div class="contact-icon linkedin">in</div>
             <div><div class="k">LinkedIn</div><div class="v"><a href="https://www.linkedin.com/in/shyam-sundar-domakonda" target="_blank" rel="noopener">linkedin.com/in/shyam-sundar-domakonda</a></div></div>
           </div>
-          <div class="contact-item">
-            <div class="contact-icon schedule">&#128197;</div>
-            <div><div class="k">Schedule a Meeting</div><div class="v"><a href="https://calendly.com/shyamsundar0329" target="_blank" rel="noopener">Book a time on Calendly</a></div></div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon location">&#128205;</div>
-            <div><div class="k">Location</div><div class="v">Texas, USA</div></div>
-          </div>
-          <div class="contact-item">
+          <div class="contact-item" id="contact-github">
             <div class="contact-icon github">GH</div>
-            <div><div class="k">GitHub</div><div class="v"><a href="https://github.com/ShyamSundar29" target="_blank" rel="noopener">github.com/ShyamSundar29</a></div></div>
+            <div><div class="k">GitHub</div><div class="v" id="contact-github-val"><a href="https://github.com/ShyamSundar29" target="_blank" rel="noopener">github.com/ShyamSundar29</a></div></div>
           </div>
           <div class="contact-item">
             <div class="contact-icon medium">M</div>
             <div><div class="k">Medium</div><div class="v"><a href="https://medium.com/@domakondashyamsundar" target="_blank" rel="noopener">medium.com/@domakondashyamsundar</a></div></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon schedule">&#128197;</div>
+            <div><div class="k">Schedule a Meeting <span class="live-dot"></span><span class="live-label">available now</span></div><div class="v"><a href="https://calendly.com/shyamsundar0329" target="_blank" rel="noopener">Book a time on Calendly</a></div></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon location">&#128205;</div>
+            <div><div class="k">Location</div><div class="v">Texas, USA</div></div>
           </div>
         </div>
       </div>
@@ -1159,6 +1179,8 @@
   const ghLiveDot = document.getElementById('gh-live-dot');
   const ghNote = document.getElementById('gh-note');
 
+  let ghLiveStats = null;
+
   fetch('https://api.github.com/users/ShyamSundar29')
     .then(r => { if(!r.ok) throw new Error('rate-limited or unavailable'); return r.json(); })
     .then(data => {
@@ -1170,6 +1192,7 @@
       ghNote.textContent = 'Live from api.github.com — pulled just now, not hardcoded.';
       ghStatus.innerHTML = '<span class="dot"></span> synced';
       logEvent('GitHub API responded — live stats loaded');
+      ghLiveStats = { repos: data.public_repos ?? 0, followers: data.followers ?? 0 };
     })
     .catch(err => {
       ghNote.textContent = 'Could not reach the GitHub API right now (rate limit or offline) — this updates automatically once deployed and reloaded.';
@@ -1178,6 +1201,51 @@
       ghStatus.innerHTML = '<span class="dot" style="background:var(--muted)"></span> offline';
       logEvent('GitHub API unreachable — showing fallback state');
     });
+
+  /* ---- Contact card interactions ---- */
+  const emailCard = document.getElementById('contact-email');
+  const emailVal = document.getElementById('contact-email-val');
+  const emailAddress = 'domakondashyamsudnar@gmail.com';
+  if(emailCard){
+    emailCard.addEventListener('click', (e) => {
+      e.preventDefault();
+      const original = emailVal.innerHTML;
+      const revert = () => { emailVal.innerHTML = original; };
+      const showCopied = () => {
+        emailVal.textContent = 'Copied to clipboard';
+        toast('Email copied');
+        logEvent('email copied to clipboard');
+        setTimeout(revert, 1500);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(emailAddress).then(showCopied).catch(showCopied);
+      } else {
+        showCopied();
+      }
+    });
+  }
+
+  const githubCard = document.getElementById('contact-github');
+  const githubVal = document.getElementById('contact-github-val');
+  let githubExpanded = false;
+  if(githubCard){
+    githubCard.addEventListener('click', (e) => {
+      e.preventDefault();
+      githubExpanded = !githubExpanded;
+      if(!githubExpanded || !ghLiveStats){
+        githubVal.innerHTML = '<a href="https://github.com/ShyamSundar29" target="_blank" rel="noopener">github.com/ShyamSundar29</a>';
+        return;
+      }
+      let repos = 0, followers = 0;
+      const timer = setInterval(() => {
+        repos = Math.min(ghLiveStats.repos, repos + 1);
+        followers = Math.min(ghLiveStats.followers, followers + 1);
+        githubVal.textContent = repos + ' repos · ' + followers + ' followers';
+        if(repos >= ghLiveStats.repos && followers >= ghLiveStats.followers) clearInterval(timer);
+      }, 60);
+      logEvent('GitHub card expanded — live stats');
+    });
+  }
 })();
 </script>
 
