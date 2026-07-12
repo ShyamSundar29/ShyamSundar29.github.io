@@ -64,13 +64,16 @@
   /* ---- Layout ---- */
   .shell{ display:flex; max-width:1180px; margin:0 auto; }
   .rail{
-    width:186px; flex:none; padding:24px 12px; display:flex; flex-direction:column;
+    width:62px; flex:none; padding:24px 10px; display:flex; flex-direction:column;
     gap:4px; color:var(--muted); position:sticky; top:0; align-self:flex-start;
-    max-height:100vh; overflow-y:auto;
+    max-height:100vh; overflow-x:hidden; overflow-y:auto;
+    transition:width .22s cubic-bezier(.4,0,.2,1);
+    z-index:5;
   }
+  .rail:hover{ width:196px; }
   .rail a{
     color:var(--muted); text-decoration:none; display:flex; align-items:center;
-    gap:11px; padding:8px 10px; border-radius:8px; font-size:13px; font-weight:500;
+    gap:11px; padding:8px 9px; border-radius:8px; font-size:13px; font-weight:500;
     cursor:pointer; transition:color .15s ease, background .15s ease;
   }
   .rail-icon{
@@ -80,7 +83,12 @@
     transition:background .15s ease, color .15s ease;
   }
   .rail-icon svg{ width:16px; height:16px; }
-  .rail-label{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .rail-label{
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    opacity:0; max-width:0;
+    transition:opacity .18s ease .04s, max-width .22s cubic-bezier(.4,0,.2,1);
+  }
+  .rail:hover .rail-label{ opacity:1; max-width:140px; }
   .rail a:hover{ color:var(--ink); background:#f5f6f8; transform:none; }
   .rail a:hover .rail-icon{ background:#e6e9ee; color:var(--ink); }
   .rail a.active{ color:var(--blue); background:#eef4ff; }
