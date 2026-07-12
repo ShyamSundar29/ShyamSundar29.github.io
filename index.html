@@ -261,13 +261,16 @@
   .edu{ display:flex; align-items:flex-start; gap:14px; border:1px solid var(--line); border-radius:8px; padding:16px; background:#fbfbfc; }
   .edu .deg{ font-weight:600; font-size:14px; }
   .edu .school{ font-size:13px; color:var(--muted); margin-top:2px; }
+  .edu-dates{ font-size:11.5px; color:var(--muted); font-family:'IBM Plex Mono', monospace; margin-top:4px; }
   .edu-logo{
     width:40px; height:40px; border-radius:50%; flex:none;
     display:flex; align-items:center; justify-content:center;
     font-weight:700; font-size:11px; color:#fff; letter-spacing:.01em;
+    overflow:hidden; background-size:cover; background-position:center;
   }
-  .edu-logo.unt{ background:#00853e; }
-  .edu-logo.jntuh{ background:var(--blue); }
+  .edu-logo.unt{ background-color:#00853e; }
+  .edu-logo.jntuh{ background-color:var(--blue); }
+  .edu-logo img{ width:100%; height:100%; object-fit:cover; }
 
   /* contact */
   .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
@@ -887,14 +890,16 @@
             <div class="edu-logo unt">UNT</div>
             <div>
               <div class="deg">M.S. &mdash; Data Science</div>
-              <div class="school">University of North Texas &middot; Aug 2022 &ndash; May 2024</div>
+              <div class="school">University of North Texas</div>
+              <div class="edu-dates">Aug 2022 &ndash; May 2024</div>
             </div>
           </div>
           <div class="edu">
             <div class="edu-logo jntuh">JC</div>
             <div>
               <div class="deg">B.Tech &mdash; Mechanical Engineering</div>
-              <div class="school">JNTUH College of Engineering, Jagityala &middot; Jul 2017 &ndash; May 2021</div>
+              <div class="school">JNTUH College of Engineering, Jagityala</div>
+              <div class="edu-dates">Jul 2017 &ndash; May 2021</div>
             </div>
           </div>
         </div>
