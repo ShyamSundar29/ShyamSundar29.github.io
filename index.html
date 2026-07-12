@@ -120,7 +120,13 @@
     width:42px; height:42px; border-radius:8px; flex:none;
     background:var(--ink); color:#fff; font-weight:700; font-size:13px;
     display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
   }
+  .job-logo svg{ width:100%; height:100%; }
+  .job-logo.walmart{ background:#0071ce; }
+  .job-logo.experis{ background:#5b2a86; }
+  .job-logo.tcs{ background:#0b0b0b; font-size:11px; letter-spacing:.02em; }
+  .job-logo.unt{ background:#00853e; font-size:11px; }
   .job-title{ font-weight:600; font-size:15.5px; }
   .job-meta{ font-size:13px; color:var(--muted); margin:2px 0 12px; }
   ul.contrib{ margin:0; padding-left:18px; font-size:14px; line-height:1.65; color:#374151; }
@@ -351,17 +357,6 @@
   }
   .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
 
-  /* ---- GitHub live stats cell ---- */
-  .gh-row{ display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
-  .gh-label{ font-size:12.5px; color:var(--muted); }
-  .gh-live{ font-size:11px; color:var(--ok); font-family:'IBM Plex Mono', monospace; }
-  .gh-live.off{ color:var(--muted); }
-  .gh-stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
-  .gh-stat{ text-align:center; border:1px solid var(--line); border-radius:8px; padding:14px 8px; background:#fbfbfc; }
-  .gh-num{ font-size:22px; font-weight:700; color:var(--blue); font-family:'IBM Plex Mono', monospace; }
-  .gh-key{ font-size:11px; color:var(--muted); margin-top:4px; }
-  .gh-note{ font-size:11.5px; color:var(--muted); margin-top:12px; font-family:'IBM Plex Mono', monospace; }
-
   /* ---- Icon buttons / kbd ---- */
   .icon-btn{ display:inline-flex; align-items:center; gap:6px; }
   kbd{
@@ -431,7 +426,7 @@
   @media (max-width:720px){
     .rail{ display:none; }
     main{ padding:24px 16px 60px; }
-    .skill-grid, .award-grid, .edu-grid, .contact-grid, .expertise-grid, .gh-stats{ grid-template-columns:1fr; }
+    .skill-grid, .award-grid, .edu-grid, .contact-grid, .expertise-grid{ grid-template-columns:1fr; }
     .topbar{ flex-wrap:wrap; }
     .skl-grid{ grid-template-columns:1fr; }
     .skl-badge{ padding:6px 12px; font-size:12px; }
@@ -485,22 +480,6 @@
       </div>
     </div>
 
-    <div class="cell" id="github-cell">
-      <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:14 (&lt;1s)</span><span class="idx">1b</span></div>
-      <div class="cell-body">
-        <div class="gh-row">
-          <span class="gh-label mono">GET api.github.com/users/ShyamSundar29</span>
-          <span class="gh-live" id="gh-live-dot">&#9679; live</span>
-        </div>
-        <div class="gh-stats" id="gh-stats">
-          <div class="gh-stat"><div class="gh-num" id="gh-repos">&mdash;</div><div class="gh-key">public repos</div></div>
-          <div class="gh-stat"><div class="gh-num" id="gh-followers">&mdash;</div><div class="gh-key">followers</div></div>
-          <div class="gh-stat"><div class="gh-num" id="gh-following">&mdash;</div><div class="gh-key">following</div></div>
-          <div class="gh-stat"><div class="gh-num" id="gh-since">&mdash;</div><div class="gh-key">member since</div></div>
-        </div>
-        <div class="gh-note" id="gh-note">Fetching real data from the GitHub API&hellip;</div>
-      </div>
-    </div>
 
     <h2 class="section-title" id="sec-badges">Certifications &amp; Badges</h2>
     <div class="cell">
@@ -521,14 +500,19 @@
       <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:16 (&lt;1s)</span><span class="idx">3</span></div>
       <div class="cell-body">
         <div class="job">
-          <div class="job-logo">EX</div>
+          <div class="job-logo experis" id="logo-experis">
+            <svg viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><line x1="12" y1="12" x2="30" y2="30" stroke="#fff" stroke-width="5" stroke-linecap="round"/><line x1="30" y1="12" x2="12" y2="30" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg>
+          </div>
           <div>
             <div class="job-title">Senior AI/ML Engineer</div>
-            <div class="job-meta">Experis &middot; 2025 &ndash; Present &middot; Texas, USA</div>
+            <div class="job-meta">Experis &middot; Contract &middot; Jun 2026 &ndash; Present &middot; Remote</div>
             <ul class="contrib">
-              <li>Own data governance and security documentation for IBM Cloud, DataVault, and Cloud Object Storage (COS) environments, including least-privilege bucket access policy design.</li>
+              <li>Own data governance and security documentation for IBM Cloud, DataVault, and Cloud Object Storage (COS) environments, including least-privilege bucket access policies.</li>
               <li>Author cleanup and lifecycle procedures for internal asset management tooling, formalizing production-data handling baselines for client engagements.</li>
               <li>Partner with platform teams to define secure, auditable patterns for GenAI workloads running on IBM Cloud infrastructure.</li>
+              <li>Review and harden access-control configurations across cloud storage tiers to reduce exposure risk in client environments.</li>
+              <li>Document security and compliance runbooks used by engineering teams during client onboarding and audits.</li>
+              <li>Collaborate with cross-functional teams to align data governance practices with enterprise security standards.</li>
             </ul>
           </div>
         </div>
@@ -539,13 +523,28 @@
       <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:16 (&lt;1s)</span><span class="idx">4</span></div>
       <div class="cell-body">
         <div class="job">
-          <div class="job-logo">WM</div>
+          <div class="job-logo walmart" id="logo-walmart">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g stroke="#ffc220" stroke-width="2.4" stroke-linecap="round">
+                <line x1="12" y1="2" x2="12" y2="22"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <line x1="4.5" y1="4.5" x2="19.5" y2="19.5"/>
+                <line x1="19.5" y1="4.5" x2="4.5" y2="19.5"/>
+                <line x1="12" y1="2" x2="12" y2="22" transform="rotate(30 12 12)"/>
+                <line x1="12" y1="2" x2="12" y2="22" transform="rotate(-30 12 12)"/>
+              </g>
+            </svg>
+          </div>
           <div>
-            <div class="job-title">AI/ML Engineer</div>
-            <div class="job-meta">Walmart &middot; Prior role</div>
+            <div class="job-title">Data Scientist | AI/ML Engineer</div>
+            <div class="job-meta">Walmart &middot; Contract &middot; Jun 2024 &ndash; May 2026</div>
             <ul class="contrib">
-              <li>Built retrieval-augmented generation (RAG) systems on IBM watsonx.ai, GCP Vertex AI, and Azure to support enterprise search and knowledge-retrieval use cases.</li>
-              <li>Designed and evaluated vector retrieval and prompt pipelines for production-scale document question-answering.</li>
+              <li>Designed end-to-end RAG architecture integrating vector retrieval, LLM inference, and evaluation pipelines for enterprise-scale applications.</li>
+              <li>Built multi-agent AI systems using AutoGen and LangGraph, enabling dynamic task planning and orchestration across collaborative agent workflows.</li>
+              <li>Implemented hybrid search (semantic + keyword + reranking) to improve retrieval precision and cut irrelevant context.</li>
+              <li>Designed LLMOps pipelines covering prompt versioning, response logging, evaluation tracking, and model monitoring.</li>
+              <li>Deployed low-latency inference pipelines with FastAPI and Kubernetes, using blue-green and canary strategies for safe LLM releases.</li>
+              <li>Optimized inference cost and latency through asynchronous processing, batching, caching, and token-reduction strategies.</li>
             </ul>
           </div>
         </div>
@@ -556,13 +555,38 @@
       <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:17 (&lt;1s)</span><span class="idx">5</span></div>
       <div class="cell-body">
         <div class="job">
-          <div class="job-logo">TCS</div>
+          <div class="job-logo unt" id="logo-unt">UNT</div>
           <div>
-            <div class="job-title">Data Engineer</div>
-            <div class="job-meta">Tata Consultancy Services &middot; Prior role</div>
+            <div class="job-title">Machine Learning Researcher</div>
+            <div class="job-meta">University of North Texas &middot; Part-time &middot; Oct 2022 &ndash; May 2024</div>
             <ul class="contrib">
-              <li>Built and maintained large-scale PySpark pipelines processing high-volume enterprise data.</li>
-              <li>Optimized distributed batch jobs for reliability and cost, supporting downstream analytics and reporting.</li>
+              <li>Built a custom CNN model for EEG signal preprocessing, achieving 98% accuracy in mental health classification.</li>
+              <li>Optimized transfer learning models (InceptionV3, Xception) for brain tumor detection, reaching 99.19% accuracy.</li>
+              <li>Fine-tuned transformer models using LoRA and PEFT techniques for domain-specific adaptation.</li>
+              <li>Built RAG pipelines for domain-specific Q&amp;A systems using LangChain and vector databases.</li>
+              <li>Evaluated LLM outputs using ROUGE, BLEU, BERTScore, and embedding-based similarity metrics.</li>
+              <li>Designed embedding-based semantic search and retrieval systems using Sentence Transformers for domain-specific knowledge discovery.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:17 (&lt;1s)</span><span class="idx">6</span></div>
+      <div class="cell-body">
+        <div class="job">
+          <div class="job-logo tcs" id="logo-tcs">TCS</div>
+          <div>
+            <div class="job-title">Data Scientist | ML Engineer</div>
+            <div class="job-meta">Tata Consultancy Services &middot; Full-time &middot; Jun 2021 &ndash; Aug 2022</div>
+            <ul class="contrib">
+              <li>Processed large-scale datasets (2 TB) using Python, PySpark, and SQL for downstream analytics.</li>
+              <li>Designed and maintained data pipelines using Azure Data Factory, Databricks, and Synapse Analytics, accelerating processing by 10%.</li>
+              <li>Built and optimized recommendation systems using collaborative filtering and ranking models to improve personalization.</li>
+              <li>Built predictive models using XGBoost, Random Forest, and Logistic Regression to improve business KPIs.</li>
+              <li>Created interactive dashboards with Tableau and Power BI to strengthen stakeholder reporting.</li>
+              <li>Deployed ML models using Azure ML and Databricks with CI/CD pipelines, including monitoring and drift detection.</li>
             </ul>
           </div>
         </div>
@@ -1184,30 +1208,19 @@
     });
   });
 
-  /* ---- Live GitHub stats (real fetch, real data) ---- */
+  /* ---- Live GitHub data (powers topbar sync dot + Contact GitHub card counter) ---- */
   const ghStatus = document.getElementById('github-status');
-  const ghLiveDot = document.getElementById('gh-live-dot');
-  const ghNote = document.getElementById('gh-note');
 
   let ghLiveStats = null;
 
   fetch('https://api.github.com/users/ShyamSundar29')
     .then(r => { if(!r.ok) throw new Error('rate-limited or unavailable'); return r.json(); })
     .then(data => {
-      document.getElementById('gh-repos').textContent = data.public_repos ?? '—';
-      document.getElementById('gh-followers').textContent = data.followers ?? '—';
-      document.getElementById('gh-following').textContent = data.following ?? '—';
-      const since = data.created_at ? new Date(data.created_at).getFullYear() : '—';
-      document.getElementById('gh-since').textContent = since;
-      ghNote.textContent = 'Live from api.github.com — pulled just now, not hardcoded.';
       ghStatus.innerHTML = '<span class="dot"></span> synced';
       logEvent('GitHub API responded — live stats loaded');
       ghLiveStats = { repos: data.public_repos ?? 0, followers: data.followers ?? 0 };
     })
     .catch(err => {
-      ghNote.textContent = 'Could not reach the GitHub API right now (rate limit or offline) — this updates automatically once deployed and reloaded.';
-      ghLiveDot.classList.add('off');
-      ghLiveDot.textContent = '&#9679; offline';
       ghStatus.innerHTML = '<span class="dot" style="background:var(--muted)"></span> offline';
       logEvent('GitHub API unreachable — showing fallback state');
     });
