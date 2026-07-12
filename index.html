@@ -258,9 +258,16 @@
 
   /* education */
   .edu-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-  .edu{ border:1px solid var(--line); border-radius:8px; padding:16px; background:#fbfbfc; }
+  .edu{ display:flex; align-items:flex-start; gap:14px; border:1px solid var(--line); border-radius:8px; padding:16px; background:#fbfbfc; }
   .edu .deg{ font-weight:600; font-size:14px; }
   .edu .school{ font-size:13px; color:var(--muted); margin-top:2px; }
+  .edu-logo{
+    width:40px; height:40px; border-radius:50%; flex:none;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:11px; color:#fff; letter-spacing:.01em;
+  }
+  .edu-logo.unt{ background:#00853e; }
+  .edu-logo.jntuh{ background:var(--blue); }
 
   /* contact */
   .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
@@ -307,12 +314,6 @@
     color:var(--muted); font-size:12px; border-top:1px solid var(--line); margin-top:20px;
   }
   footer .made{ font-family:'IBM Plex Mono', monospace; }
-
-  .sample-flag{
-    background:#fff4de; border:1px solid #f1a501; color:#7a5200;
-    font-size:12.5px; padding:10px 16px; text-align:center;
-    font-family:'IBM Plex Mono', monospace;
-  }
 
   /* ---- Interactivity ---- */
   .cell-head .play{ cursor:pointer; user-select:none; transition:transform .15s ease; display:inline-flex; }
@@ -436,12 +437,10 @@
 </head>
 <body>
 
-<div class="sample-flag">SAMPLE DRAFT — placeholder content, swap in your real details before publishing</div>
-
 <div class="topbar">
   <span class="name">shyam-sundar-portfolio</span>
   <span class="kernel-pill">python3.11</span>
-  <span class="revised">Draft &middot; not yet deployed</span>
+  <span class="revised">Live</span>
   <div class="spacer"></div>
   <span class="status" id="github-status"><span class="dot"></span> syncing&hellip;</span>
   <button class="btn icon-btn" id="palette-btn" title="Jump to section (&#8984;K)">&#128269; <kbd>&#8984;K</kbd></button>
@@ -885,12 +884,18 @@
       <div class="cell-body">
         <div class="edu-grid">
           <div class="edu">
-            <div class="deg">M.S. &mdash; Computer Science / Data Science</div>
-            <div class="school">University of North Texas</div>
+            <div class="edu-logo unt">UNT</div>
+            <div>
+              <div class="deg">M.S. &mdash; Data Science</div>
+              <div class="school">University of North Texas &middot; Aug 2022 &ndash; May 2024</div>
+            </div>
           </div>
           <div class="edu">
-            <div class="deg">B.Tech &mdash; Mechanical Engineering</div>
-            <div class="school">JNTUH College of Engineering, Jagityala &middot; Jul 2017 &ndash; May 2021</div>
+            <div class="edu-logo jntuh">JC</div>
+            <div>
+              <div class="deg">B.Tech &mdash; Mechanical Engineering</div>
+              <div class="school">JNTUH College of Engineering, Jagityala &middot; Jul 2017 &ndash; May 2021</div>
+            </div>
           </div>
         </div>
       </div>
@@ -934,7 +939,7 @@
 
 <footer>
   <span>&copy; 2026 Shyam Sundar. All rights reserved.</span>
-  <span class="made">static build &middot; IBM Plex &middot; sample draft</span>
+  <span class="made">static build &middot; IBM Plex</span>
 </footer>
 
 <div class="toast" id="toast"></div>
