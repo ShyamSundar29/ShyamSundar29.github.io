@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title>Shyam Sundar | AI/ML Engineer &amp; Data Systems Architect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#111318;
+    --paper:#ffffff;
+    --canvas:#f5f6f8;
+    --line:#e2e4e9;
+    --muted:#6b7280;
+    --blue:#0f62fe;      /* IBM Cloud blue */
+    --teal:#08bdba;      /* accent */
+    --amber:#f1a501;     /* accent for warnings/badges */
+    --ok:#24a148;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--canvas);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  code, .mono{ font-family:'IBM Plex Mono', monospace; }
+
+  /* ---- Top chrome bar, mimics a notebook/IDE header ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    display:flex; align-items:center; gap:14px;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    padding:12px 24px;
+  }
+  .topbar .name{ font-weight:600; font-size:14px; }
+  .kernel-pill{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; color:var(--blue);
+    background:#edf4ff; border:1px solid #cfe0ff;
+    padding:3px 10px; border-radius:999px;
+  }
+  .topbar .revised{ font-size:12px; color:var(--muted); }
+  .topbar .spacer{ flex:1; }
+  .topbar .status{
+    display:flex; align-items:center; gap:6px;
+    font-size:12px; color:var(--muted);
+  }
+  .dot{ width:7px; height:7px; border-radius:50%; background:var(--ok); }
+  .btn{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:13px; font-weight:500;
+    border:1px solid var(--line); background:var(--paper);
+    padding:7px 14px; border-radius:6px; cursor:pointer;
+    color:var(--ink); text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+  }
+  .btn.primary{ background:var(--ink); color:#fff; border-color:var(--ink); }
+  .btn.run{ color:var(--blue); border-color:#cfe0ff; }
+
+  /* ---- Layout ---- */
+  .shell{ display:flex; max-width:1180px; margin:0 auto; }
+  .rail{
+    width:56px; padding:20px 0; display:flex; flex-direction:column;
+    align-items:center; gap:22px; color:var(--muted);
+  }
+  .rail a{ color:var(--muted); text-decoration:none; }
+  .rail a.active{ color:var(--blue); }
+  main{ flex:1; padding:36px 32px 80px; min-width:0; }
+
+  h2.section-title{
+    font-size:20px; font-weight:600; margin:48px 0 14px;
+    padding-bottom:10px; border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  h2.section-title::before{
+    content:""; position:absolute; left:-14px; top:2px; bottom:12px;
+    width:3px; background:var(--blue);
+  }
+  h2.section-title:first-of-type{ margin-top:0; }
+
+  /* ---- Notebook cell ---- */
+  .cell{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    margin-bottom:16px; overflow:hidden;
+  }
+  .cell-head{
+    display:flex; align-items:center; gap:10px;
+    padding:8px 16px; border-bottom:1px solid var(--line);
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--muted);
+  }
+  .cell-head .play{ color:var(--blue); }
+  .cell-head .check{ color:var(--ok); }
+  .cell-head .idx{ margin-left:auto; }
+  .cell-body{ padding:24px; }
+
+  /* hero cell */
+  .role{ color:var(--blue); font-weight:600; font-size:16px; margin:2px 0 6px; }
+  .loc{ color:var(--muted); font-size:13px; margin-bottom:14px; display:flex; align-items:center; gap:6px; }
+  h1{ font-size:32px; margin:0 0 2px; letter-spacing:-0.02em; }
+  .rule{ width:52px; height:3px; background:var(--amber); margin:14px 0 18px; border-radius:2px; }
+  p.lede{ font-size:15px; line-height:1.7; color:#374151; max-width:70ch; }
+
+  /* badges */
+  .badge-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(150px,1fr)); gap:14px; }
+  .badge{ border:1px solid var(--line); border-radius:8px; padding:16px 12px; text-align:center; background:#fbfbfc; }
+  .badge .mark{
+    width:56px; height:56px; margin:0 auto 10px; border-radius:50%;
+    background:linear-gradient(135deg, var(--blue), var(--teal));
+    display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:15px;
+  }
+  .badge .label{ font-size:12.5px; font-weight:500; }
+
+  /* experience */
+  .job{ display:flex; gap:14px; }
+  .job-logo{
+    width:42px; height:42px; border-radius:8px; flex:none;
+    background:var(--ink); color:#fff; font-weight:700; font-size:13px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .job-title{ font-weight:600; font-size:15.5px; }
+  .job-meta{ font-size:13px; color:var(--muted); margin:2px 0 12px; }
+  ul.contrib{ margin:0; padding-left:18px; font-size:14px; line-height:1.65; color:#374151; }
+  ul.contrib li{ margin-bottom:8px; }
+
+  /* skills */
+  .skill-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .skill-card{ border:1px solid var(--line); border-radius:8px; padding:16px; background:#fbfbfc; }
+  .skill-card h4{ margin:0 0 4px; font-size:14px; }
+  .skill-card .count{ font-size:11.5px; color:var(--muted); margin-bottom:10px; }
+
+  /* ---- Expandable expertise cards (matches reference template exactly) ---- */
+  .expertise-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; align-items:start; }
+  .exp-card{
+    border:1px solid var(--line); border-left:4px solid var(--exp-accent, var(--blue));
+    border-radius:14px; background:var(--paper);
+    padding:22px 24px 16px; cursor:pointer; user-select:none;
+  }
+  .exp-card.open{ box-shadow:0 0 0 3px var(--exp-chip-bg, rgba(15,98,254,.1)); }
+  .exp-card-top{ display:flex; align-items:flex-start; gap:14px; margin-bottom:16px; }
+  .exp-icon-lg{ font-size:34px; line-height:1; flex:none; margin-top:2px; }
+  .exp-title{ font-size:16px; font-weight:700; color:var(--ink); }
+  .exp-sub{ font-size:13.5px; color:var(--muted); margin-top:4px; line-height:1.4; }
+  .exp-card .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .exp-card .chip{
+    font-size:13px; font-weight:400; padding:7px 14px; border-radius:8px;
+    background:var(--exp-chip-bg, #edf4ff); color:var(--exp-chip-text, var(--blue));
+    border:none;
+  }
+  .exp-more{ background:transparent !important; color:var(--muted) !important; font-weight:400; }
+  .exp-desc{ font-size:12.5px; color:#4b5563; line-height:1.6; margin-top:12px; padding-top:12px; border-top:1px solid var(--line); }
+  .exp-panel{ max-height:0; overflow:hidden; transition:max-height .3s ease; }
+  .exp-card.open .exp-panel{ max-height:420px; overflow-y:auto; }
+  .exp-panel-inner{ padding-top:2px; }
+  .exp-card.open .exp-preview-chips{ display:none; }
+  .exp-chev-wrap{ display:flex; justify-content:center; margin-top:14px; }
+  .exp-chev-center{ color:#9aa1ad; font-size:13px; transition:transform .2s ease; }
+  .exp-card.open .exp-chev-center{ transform:rotate(180deg); }
+
+  .exp-card.c-purple{ --exp-accent:#8b5cf6; --exp-chip-bg:#f3e8ff; --exp-chip-text:#7c3aed; }
+  .exp-card.c-blue{   --exp-accent:#3b82f6; --exp-chip-bg:#dbeafe; --exp-chip-text:#2563eb; }
+  .exp-card.c-green{  --exp-accent:#10b981; --exp-chip-bg:#d1fae5; --exp-chip-text:#059669; }
+  .exp-card.c-orange{ --exp-accent:#f59e0b; --exp-chip-bg:#fef3c7; --exp-chip-text:#92400e; }
+  .exp-card.c-red{    --exp-accent:#ef4444; --exp-chip-bg:#fee2e2; --exp-chip-text:#b91c1c; }
+
+  /* ---- Skills accordion ---- */
+  .accordion{ display:flex; flex-direction:column; gap:10px; }
+  .acc-item{ border:1px solid var(--line); border-radius:8px; background:#fbfbfc; overflow:hidden; }
+  .acc-header{
+    width:100%; display:flex; align-items:center; gap:12px;
+    padding:14px 16px; background:none; border:none; cursor:pointer;
+    font-family:'IBM Plex Sans', sans-serif; text-align:left;
+  }
+  .acc-icon{
+    width:32px; height:32px; border-radius:7px; flex:none;
+    display:flex; align-items:center; justify-content:center; font-size:15px;
+  }
+  .acc-title{ font-size:14px; font-weight:600; color:var(--ink); }
+  .acc-count{ font-size:11.5px; color:var(--muted); margin-left:6px; }
+  .acc-chev{ margin-left:auto; color:var(--muted); font-size:12px; transition:transform .2s ease; }
+  .acc-item.open .acc-chev{ transform:rotate(180deg); }
+  .acc-item.open .acc-header{ border-bottom:1px solid var(--line); }
+  .acc-panel{ max-height:0; overflow:hidden; transition:max-height .3s ease; }
+  .acc-panel-inner{ padding:14px 16px 16px; }
+
+  /* ---- Skills section: clickable 2-column card grid (matches reference interaction) ---- */
+  .skl-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .skl-card{
+    border:1px solid var(--line); border-radius:10px; background:#fbfbfc;
+    cursor:pointer; user-select:none; overflow:hidden;
+  }
+  .skl-card.open{ border-color:var(--skl-text, var(--blue)); box-shadow:0 0 0 3px var(--skl-bg, rgba(15,98,254,.1)); background:var(--paper); }
+  .skl-card-head{ display:flex; align-items:center; gap:12px; padding:16px; }
+  .skl-icon{
+    width:36px; height:36px; border-radius:8px; flex:none;
+    background:var(--skl-bg, #edf4ff); display:flex; align-items:center; justify-content:center; font-size:16px;
+  }
+  .skl-title{ font-size:16px; font-weight:700; color:var(--ink); }
+  .skl-count{ font-size:11.5px; color:var(--muted); margin-top:1px; }
+  .skl-chev{ margin-left:auto; color:var(--muted); font-size:12px; transition:transform .2s ease; }
+  .skl-card.open .skl-chev{ transform:rotate(180deg); }
+  .skl-preview{ padding:0 16px 16px; font-size:12.5px; color:var(--muted); line-height:1.6; }
+  .skl-card.open .skl-preview{ display:none; }
+  .skl-panel{ max-height:0; overflow:hidden; transition:max-height .3s ease; }
+  .skl-card.open .skl-panel{ max-height:240px; overflow-y:auto; }
+  .skl-panel-inner{ padding:0 16px 16px; }
+  .skl-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .skl-badge{
+    display:inline-flex; align-items:center;
+    padding:7px 14px; border-radius:8px;
+    font-family:'IBM Plex Sans', sans-serif; font-weight:400; font-size:13px;
+    background:var(--skl-bg, #edf4ff); color:var(--skl-text, var(--blue));
+    white-space:nowrap;
+  }
+  .skl-card.c-blue{    --skl-bg:#dbeafe; --skl-text:#2563eb; }
+  .skl-card.c-orange{  --skl-bg:#fef3c7; --skl-text:#92400e; }
+  .skl-card.c-purple{  --skl-bg:#f3e8ff; --skl-text:#7c3aed; }
+  .skl-card.c-green{   --skl-bg:#d1fae5; --skl-text:#059669; }
+  .skl-card.c-cyan{    --skl-bg:#cffafe; --skl-text:#0e7490; }
+  .skl-card.c-violet{  --skl-bg:#ede9fe; --skl-text:#6d28d9; }
+  .skl-card.c-indigo{  --skl-bg:#e0e7ff; --skl-text:#4338ca; }
+  .skl-card.c-sky{     --skl-bg:#e0f2fe; --skl-text:#0369a1; }
+  .skl-card.c-teal{    --skl-bg:#ccfbf1; --skl-text:#0f766e; }
+  .skl-card.c-slate{   --skl-bg:#e5e7eb; --skl-text:#374151; }
+  .skl-card.c-emerald{ --skl-bg:#dcfce7; --skl-text:#15803d; }
+  .chips{ display:flex; flex-wrap:wrap; gap:6px; }
+  .chip{
+    font-size:13px; font-weight:400; padding:7px 14px; border-radius:8px;
+    background:#edf4ff; color:var(--blue); border:none;
+  }
+
+  /* governance / certifications "audit log" table (signature element) */
+  .audit-toolbar{
+    display:flex; align-items:center; gap:14px; font-size:12px; color:var(--muted);
+    font-family:'IBM Plex Mono', monospace; margin-bottom:10px;
+  }
+  .audit-toolbar .live{ display:flex; align-items:center; gap:5px; color:var(--ok); }
+  table.audit{ width:100%; border-collapse:collapse; font-size:13.5px; }
+  table.audit th{
+    text-align:left; font-family:'IBM Plex Mono', monospace; font-weight:500;
+    font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em;
+    padding:8px 10px; border-bottom:1px solid var(--line);
+  }
+  table.audit td{ padding:10px; border-bottom:1px solid #f0f1f3; }
+  table.audit tr:last-child td{ border-bottom:none; }
+  .verified{ color:var(--ok); font-family:'IBM Plex Mono', monospace; font-size:12px; }
+  .audit-footer{ display:flex; justify-content:space-between; font-size:11.5px; color:var(--muted); margin-top:8px; font-family:'IBM Plex Mono', monospace; }
+
+  /* awards */
+  .award-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .award{ display:flex; align-items:center; gap:12px; border:1px solid var(--line); border-radius:8px; padding:12px 14px; background:#fbfbfc; }
+  .award .icon{ width:34px; height:34px; border-radius:8px; background:#fff4de; color:var(--amber); display:flex; align-items:center; justify-content:center; font-weight:700; flex:none; }
+  .award .t{ font-size:13.5px; font-weight:500; }
+  .award .y{ font-size:11.5px; color:var(--muted); }
+
+  /* education */
+  .edu-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .edu{ border:1px solid var(--line); border-radius:8px; padding:16px; background:#fbfbfc; }
+  .edu .deg{ font-weight:600; font-size:14px; }
+  .edu .school{ font-size:13px; color:var(--muted); margin-top:2px; }
+
+  /* contact */
+  .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .contact-item{ border:1px solid var(--line); border-radius:8px; padding:12px 14px; background:#fbfbfc; }
+  .contact-item .k{ font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-family:'IBM Plex Mono', monospace; }
+  .contact-item .v{ font-size:14px; margin-top:3px; font-weight:500; }
+  .contact-item a{ color:var(--blue); text-decoration:none; }
+
+  footer{
+    max-width:1180px; margin:0 auto; padding:20px 32px 40px;
+    display:flex; justify-content:space-between; align-items:center;
+    color:var(--muted); font-size:12px; border-top:1px solid var(--line); margin-top:20px;
+  }
+  footer .made{ font-family:'IBM Plex Mono', monospace; }
+
+  .sample-flag{
+    background:#fff4de; border:1px solid #f1a501; color:#7a5200;
+    font-size:12.5px; padding:10px 16px; text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+  }
+
+  /* ---- Interactivity ---- */
+  .cell-head .play{ cursor:pointer; user-select:none; transition:transform .15s ease; display:inline-flex; }
+  .cell-head .play:hover{ transform:scale(1.15); }
+  .cell-head .play.spinning{ animation:spin .7s linear infinite; color:var(--blue); }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .cell.running{ border-color:var(--blue); box-shadow:0 0 0 3px rgba(15,98,254,.12); }
+  .cell.just-ran{ animation:flash-ok .9s ease; }
+  @keyframes flash-ok{
+    0%{ box-shadow:0 0 0 3px rgba(36,161,72,.25); }
+    100%{ box-shadow:0 0 0 0 rgba(36,161,72,0); }
+  }
+
+  .cell-head .check.pending{ opacity:.25; }
+  .cell-head .ts{ transition:color .2s ease; }
+  .cell-head .ts.fresh{ color:var(--ok); font-weight:600; }
+
+  .btn.run.busy{ pointer-events:none; opacity:.6; }
+  .btn.run .spin-icon{ display:inline-block; }
+  .btn.run.busy .spin-icon{ animation:spin .7s linear infinite; }
+
+  .rail a{ cursor:pointer; transition:color .15s ease, transform .15s ease; }
+  .rail a:hover{ color:var(--blue); transform:translateX(2px); }
+
+  .toast{
+    position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--ink); color:#fff; font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px; padding:10px 18px; border-radius:8px;
+    opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease;
+    z-index:50;
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* ---- GitHub live stats cell ---- */
+  .gh-row{ display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+  .gh-label{ font-size:12.5px; color:var(--muted); }
+  .gh-live{ font-size:11px; color:var(--ok); font-family:'IBM Plex Mono', monospace; }
+  .gh-live.off{ color:var(--muted); }
+  .gh-stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .gh-stat{ text-align:center; border:1px solid var(--line); border-radius:8px; padding:14px 8px; background:#fbfbfc; }
+  .gh-num{ font-size:22px; font-weight:700; color:var(--blue); font-family:'IBM Plex Mono', monospace; }
+  .gh-key{ font-size:11px; color:var(--muted); margin-top:4px; }
+  .gh-note{ font-size:11.5px; color:var(--muted); margin-top:12px; font-family:'IBM Plex Mono', monospace; }
+
+  /* ---- Icon buttons / kbd ---- */
+  .icon-btn{ display:inline-flex; align-items:center; gap:6px; }
+  kbd{
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px;
+    background:var(--canvas); border:1px solid var(--line); border-radius:4px;
+    padding:1px 5px;
+  }
+
+  /* ---- Dark mode ---- */
+  body[data-theme="dark"]{
+    --ink:#e6e8ee; --paper:#181b22; --canvas:#101216; --line:#2a2e37; --muted:#8b93a3;
+  }
+  body[data-theme="dark"] .badge, body[data-theme="dark"] .skill-card,
+  body[data-theme="dark"] .award, body[data-theme="dark"] .edu,
+  body[data-theme="dark"] .contact-item, body[data-theme="dark"] .gh-stat{ background:#1d2129; }
+  body[data-theme="dark"] .kernel-pill{ background:#132038; border-color:#1f3357; }
+  body[data-theme="dark"] .chip{ background:#132038; border-color:#1f3357; }
+
+  /* ---- Command palette ---- */
+  .palette-overlay{
+    position:fixed; inset:0; background:rgba(10,12,16,.55);
+    display:none; align-items:flex-start; justify-content:center;
+    padding-top:12vh; z-index:100;
+  }
+  .palette-overlay.open{ display:flex; }
+  .palette{
+    width:min(560px, 90vw); background:var(--paper); border-radius:12px;
+    border:1px solid var(--line); overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+  }
+  .palette input{
+    width:100%; border:none; outline:none; padding:16px 18px;
+    font-size:15px; font-family:'IBM Plex Mono', monospace;
+    background:transparent; color:var(--ink);
+    border-bottom:1px solid var(--line);
+  }
+  .palette-list{ max-height:320px; overflow-y:auto; }
+  .palette-item{
+    padding:12px 18px; font-size:14px; cursor:pointer;
+    display:flex; align-items:center; gap:10px; color:var(--ink);
+  }
+  .palette-item .pi-icon{ color:var(--blue); width:18px; text-align:center; }
+  .palette-item.active{ background:var(--canvas); }
+  .palette-empty{ padding:20px 18px; font-size:13px; color:var(--muted); }
+
+  /* ---- Execution console ---- */
+  .console{
+    position:fixed; bottom:0; left:0; right:0; z-index:40;
+    background:#0d0f13; color:#c9d1d9;
+    font-family:'IBM Plex Mono', monospace; font-size:12px;
+    border-top:1px solid #23262e;
+    transform:translateY(calc(100% - 32px));
+    transition:transform .25s ease;
+  }
+  .console.open{ transform:translateY(0); }
+  .console-head{
+    display:flex; align-items:center; gap:8px; padding:7px 16px;
+    cursor:pointer; color:#8b93a3; user-select:none;
+  }
+  .console-head .chev{ transition:transform .2s ease; }
+  .console.open .console-head .chev{ transform:rotate(180deg); }
+  .console-body{ height:150px; overflow-y:auto; padding:4px 16px 12px; }
+  .console-line{ padding:2px 0; color:#9fb3c8; }
+  .console-line .ok{ color:#3fb950; }
+  .console-line .time{ color:#5b6472; margin-right:8px; }
+
+  @media (max-width:720px){
+    .rail{ display:none; }
+    main{ padding:24px 16px 60px; }
+    .skill-grid, .award-grid, .edu-grid, .contact-grid, .expertise-grid, .gh-stats{ grid-template-columns:1fr; }
+    .topbar{ flex-wrap:wrap; }
+    .skl-grid{ grid-template-columns:1fr; }
+    .skl-badge{ padding:6px 12px; font-size:12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sample-flag">SAMPLE DRAFT — placeholder content, swap in your real details before publishing</div>
+
+<div class="topbar">
+  <span class="name">shyam-sundar-portfolio</span>
+  <span class="kernel-pill">python3.11</span>
+  <span class="revised">Draft &middot; not yet deployed</span>
+  <div class="spacer"></div>
+  <span class="status" id="github-status"><span class="dot"></span> syncing&hellip;</span>
+  <button class="btn icon-btn" id="palette-btn" title="Jump to section (&#8984;K)">&#128269; <kbd>&#8984;K</kbd></button>
+  <button class="btn icon-btn" id="theme-btn" title="Toggle dark mode">&#9789;</button>
+  <a class="btn run" id="run-all-btn" href="#"><span class="spin-icon">&#9654;</span> <span id="run-all-label">Run all</span></a>
+  <a class="btn" href="#">Resume</a>
+  <a class="btn primary" href="https://www.linkedin.com/in/shyam-sundar-domakonda" target="_blank" rel="noopener">LinkedIn</a>
+</div>
+
+<div class="shell">
+  <div class="rail">
+    <a class="active" data-target="sec-about" title="About">&#9679;</a>
+    <a data-target="sec-badges" title="Badges">&#10003;</a>
+    <a data-target="sec-experience" title="Experience">&#128188;</a>
+    <a data-target="sec-expertise" title="Expertise">&#10022;</a>
+    <a data-target="sec-skills" title="Skills">&#9670;</a>
+    <a data-target="sec-certs" title="Certifications">&#128196;</a>
+    <a data-target="sec-contact" title="Contact">&#9993;</a>
+  </div>
+
+  <main>
+
+    <h2 class="section-title" id="sec-about">About Me</h2>
+    <div class="cell">
+      <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:14 (&lt;1s)</span><span class="idx">1</span></div>
+      <div class="cell-body">
+        <h1>SHYAM SUNDAR</h1>
+        <div class="role">AI/ML Engineer &amp; Data Systems Architect</div>
+        <div class="loc">&#128205; Texas, USA</div>
+        <div class="rule"></div>
+        <p class="lede">
+          Senior AI/ML Engineer with hands-on experience shipping RAG systems and enterprise data pipelines
+          across IBM watsonx.ai, GCP Vertex AI, and Azure. Currently building governance and security tooling
+          for IBM Cloud Object Storage environments at Experis, with prior production ML work at Walmart and
+          large-scale PySpark pipeline engineering at Tata Consultancy Services. AWS Certified Machine Learning
+          Engineer &ndash; Associate. Peer-reviewed ML researcher (EEG-based mental health classification, brain
+          tumor detection) from the University of North Texas.
+        </p>
+      </div>
+    </div>
+
+    <div class="cell" id="github-cell">
+      <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:14 (&lt;1s)</span><span class="idx">1b</span></div>
+      <div class="cell-body">
+        <div class="gh-row">
+          <span class="gh-label mono">GET api.github.com/users/ShyamSundar29</span>
+          <span class="gh-live" id="gh-live-dot">&#9679; live</span>
+        </div>
+        <div class="gh-stats" id="gh-stats">
+          <div class="gh-stat"><div class="gh-num" id="gh-repos">&mdash;</div><div class="gh-key">public repos</div></div>
+          <div class="gh-stat"><div class="gh-num" id="gh-followers">&mdash;</div><div class="gh-key">followers</div></div>
+          <div class="gh-stat"><div class="gh-num" id="gh-following">&mdash;</div><div class="gh-key">following</div></div>
+          <div class="gh-stat"><div class="gh-num" id="gh-since">&mdash;</div><div class="gh-key">member since</div></div>
+        </div>
+        <div class="gh-note" id="gh-note">Fetching real data from the GitHub API&hellip;</div>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="sec-badges">Certifications &amp; Badges</h2>
+    <div class="cell">
+      <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:15 (&lt;1s)</span><span class="idx">2</span></div>
+      <div class="cell-body">
+        <div class="badge-grid">
+          <div class="badge"><div class="mark">ML</div><div class="label">AWS Certified ML Engineer &ndash; Associate</div></div>
+          <div class="badge"><div class="mark">wx</div><div class="label">IBM watsonx.ai Practitioner</div></div>
+          <div class="badge"><div class="mark">GCP</div><div class="label">Vertex AI, GCP</div></div>
+          <div class="badge"><div class="mark">Az</div><div class="label">Azure AI Fundamentals</div></div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="sec-experience">Experience</h2>
+
+    <div class="cell">
+      <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:16 (&lt;1s)</span><span class="idx">3</span></div>
+      <div class="cell-body">
+        <div class="job">
+          <div class="job-logo">EX</div>
+          <div>
+            <div class="job-title">Senior AI/ML Engineer</div>
+            <div class="job-meta">Experis &middot; 2025 &ndash; Present &middot; Texas, USA</div>
+            <ul class="contrib">
+              <li>Own data governance and security documentation for IBM Cloud, DataVault, and Cloud Object Storage (COS) environments, including least-privilege bucket access policy design.</li>
+              <li>Author cleanup and lifecycle procedures for internal asset management tooling, formalizing production-data handling baselines for client engagements.</li>
+              <li>Partner with platform teams to define secure, auditable patterns for GenAI workloads running on IBM Cloud infrastructure.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:16 (&lt;1s)</span><span class="idx">4</span></div>
+      <div class="cell-body">
+        <div class="job">
+          <div class="job-logo">WM</div>
+          <div>
+            <div class="job-title">AI/ML Engineer</div>
+            <div class="job-meta">Walmart &middot; Prior role</div>
+            <ul class="contrib">
+              <li>Built retrieval-augmented generation (RAG) systems on IBM watsonx.ai, GCP Vertex AI, and Azure to support enterprise search and knowledge-retrieval use cases.</li>
+              <li>Designed and evaluated vector retrieval and prompt pipelines for production-scale document question-answering.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:17 (&lt;1s)</span><span class="idx">5</span></div>
+      <div class="cell-body">
+        <div class="job">
+          <div class="job-logo">TCS</div>
+          <div>
+            <div class="job-title">Data Engineer</div>
+            <div class="job-meta">Tata Consultancy Services &middot; Prior role</div>
+            <ul class="contrib">
+              <li>Built and maintained large-scale PySpark pipelines processing high-volume enterprise data.</li>
+              <li>Optimized distributed batch jobs for reliability and cost, supporting downstream analytics and reporting.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="sec-expertise">Research &amp; Specialized Expertise</h2>
+    <div class="cell">
+      <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:18 (&lt;1s)</span><span class="idx">6</span></div>
+      <div class="cell-body">
+        <div class="expertise-grid" id="expertise-grid">
+
+          <div class="exp-card c-purple">
+            <div class="exp-card-top">
+              <div class="exp-icon-lg">&#128171;</div>
+              <div>
+                <div class="exp-title">Agentic AI</div>
+                <div class="exp-sub">RAG, Multi-Agent &amp; Autonomous AI Systems</div>
+              </div>
+            </div>
+            <div class="chips exp-preview-chips">
+              <span class="chip">RAG Pipelines</span><span class="chip">Multi-Agent</span><span class="chip">LangGraph</span><span class="chip exp-more">+2 more</span>
+            </div>
+            <div class="exp-panel"><div class="exp-panel-inner">
+              <div class="chips">
+                <span class="chip">RAG Pipelines</span><span class="chip">Multi-Agent</span><span class="chip">LangGraph</span><span class="chip">Mosaic AI Agent Framework</span><span class="chip">Guardrails</span>
+              </div>
+              <div class="exp-desc">Building production-grade agentic AI systems including RAG pipelines, multi-agent orchestration, tool-calling agents, and autonomous workflows with evaluation and guardrails.</div>
+            </div></div>
+            <div class="exp-chev-wrap"><span class="exp-chev-center">&#9660;</span></div>
+          </div>
+
+          <div class="exp-card c-blue">
+            <div class="exp-card-top">
+              <div class="exp-icon-lg">&#9881;&#65039;</div>
+              <div>
+                <div class="exp-title">Platform Modernization</div>
+                <div class="exp-sub">MLOps &amp; LLMOps on Databricks Lakehouse</div>
+              </div>
+            </div>
+            <div class="chips exp-preview-chips">
+              <span class="chip">MLOps</span><span class="chip">LLMOps</span><span class="chip">Feature Store</span><span class="chip exp-more">+2 more</span>
+            </div>
+            <div class="exp-panel"><div class="exp-panel-inner">
+              <div class="chips">
+                <span class="chip">MLOps</span><span class="chip">LLMOps</span><span class="chip">Feature Store</span><span class="chip">Unity Catalog</span><span class="chip">Model Serving</span>
+              </div>
+              <div class="exp-desc">Designing end-to-end MLOps and LLMOps architectures on Databricks Lakehouse &mdash; experiment tracking, feature stores, model serving, monitoring, and governance via Unity Catalog.</div>
+            </div></div>
+            <div class="exp-chev-wrap"><span class="exp-chev-center">&#9660;</span></div>
+          </div>
+
+          <div class="exp-card c-green">
+            <div class="exp-card-top">
+              <div class="exp-icon-lg">&#9729;&#65039;</div>
+              <div>
+                <div class="exp-title">ML Migration</div>
+                <div class="exp-sub">Legacy to Lakehouse</div>
+              </div>
+            </div>
+            <div class="chips exp-preview-chips">
+              <span class="chip">SageMaker</span><span class="chip">Azure ML</span><span class="chip">Zero Downtime</span><span class="chip exp-more">+1 more</span>
+            </div>
+            <div class="exp-panel"><div class="exp-panel-inner">
+              <div class="chips">
+                <span class="chip">SageMaker</span><span class="chip">Azure ML</span><span class="chip">Zero Downtime</span><span class="chip">Re-platforming</span>
+              </div>
+              <div class="exp-desc">Leading large-scale migrations of legacy ML workloads (SageMaker, Azure ML, on-prem) to Databricks &mdash; re-platforming pipelines, model registries, and inference endpoints with zero downtime.</div>
+            </div></div>
+            <div class="exp-chev-wrap"><span class="exp-chev-center">&#9660;</span></div>
+          </div>
+
+          <div class="exp-card c-orange">
+            <div class="exp-card-top">
+              <div class="exp-icon-lg">&#128100;&#128100;</div>
+              <div>
+                <div class="exp-title">Technical Pre-Sales</div>
+                <div class="exp-sub">Solutioning &amp; Architecting</div>
+              </div>
+            </div>
+            <div class="chips exp-preview-chips">
+              <span class="chip">Architecture Design</span><span class="chip">POCs</span><span class="chip">Discovery Workshops</span><span class="chip exp-more">+1 more</span>
+            </div>
+            <div class="exp-panel"><div class="exp-panel-inner">
+              <div class="chips">
+                <span class="chip">Architecture Design</span><span class="chip">POCs</span><span class="chip">Discovery Workshops</span><span class="chip">Deal Acceleration</span>
+              </div>
+              <div class="exp-desc">Translating complex business requirements into actionable technical blueprints &mdash; discovery workshops, POCs, and architecture proposals that accelerate deal closure.</div>
+            </div></div>
+            <div class="exp-chev-wrap"><span class="exp-chev-center">&#9660;</span></div>
+          </div>
+
+          <div class="exp-card c-red">
+            <div class="exp-card-top">
+              <div class="exp-icon-lg">&#128100;&#9881;&#65039;</div>
+              <div>
+                <div class="exp-title">Forward-Deployed Engineering</div>
+                <div class="exp-sub">Embedded Consulting &amp; Delivery</div>
+              </div>
+            </div>
+            <div class="chips exp-preview-chips">
+              <span class="chip">Customer-Embedded</span><span class="chip">End-to-End Delivery</span><span class="chip">Production AI</span><span class="chip exp-more">+1 more</span>
+            </div>
+            <div class="exp-panel"><div class="exp-panel-inner">
+              <div class="chips">
+                <span class="chip">Customer-Embedded</span><span class="chip">End-to-End Delivery</span><span class="chip">Production AI</span><span class="chip">Rapid Iteration</span>
+              </div>
+              <div class="exp-desc">Embedding directly with customer teams to build, ship, and iterate on AI solutions &mdash; bridging product vision and production-grade implementation.</div>
+            </div></div>
+            <div class="exp-chev-wrap"><span class="exp-chev-center">&#9660;</span></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="sec-skills">Skills</h2>
+    <div class="cell">
+      <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:18 (&lt;1s)</span><span class="idx">6b</span></div>
+      <div class="cell-body">
+        <div class="skl-grid" id="skills-grid">
+
+          <div class="skl-card c-blue">
+            <div class="skl-card-head">
+              <span class="skl-icon">&#128187;</span>
+              <div>
+                <div class="skl-title">Programming Languages</div>
+                <div class="skl-count">3 skills</div>
+              </div>
+              <span class="skl-chev">&#9660;</span>
+            </div>
+            <div class="skl-preview">Python &middot; SQL &middot; R</div>
+            <div class="skl-panel"><div class="skl-panel-inner"><div class="skl-row">
+              <span class="skl-badge">Python</span><span class="skl-badge">SQL</span><span class="skl-badge">R</span>
+            </div></div></div>
+          </div>
+
+          <div class="skl-card c-orange">
+            <div class="skl-card-head">
+              <span class="skl-icon">&#129504;</span>
+              <div>
+                <div class="skl-title">AI / Machine Learning</div>
+                <div class="skl-count">6 skills</div>
+              </div>
+              <span class="skl-chev">&#9660;</span>
+            </div>
+            <div class="skl-preview">PyTorch &middot; TensorFlow &middot; Scikit-learn &middot; Hugging Face &hellip;</div>
+            <div class="skl-panel"><div class="skl-panel-inner"><div class="skl-row">
+              <span class="skl-badge">PyTorch</span><span class="skl-badge">TensorFlow</span><span class="skl-badge">Scikit-learn</span>
+              <span class="skl-badge">Hugging Face</span><span class="skl-badge">LangChain</span><span class="skl-badge">Streamlit</span>
+            </div></div></div>
+          </div>
+
+          <div class="skl-card c-purple">
+            <div class="skl-card-head">
+              <span class="skl-icon">&#128172;</span>
+              <div>
+                <div class="skl-title">Generative AI &amp; LLM Engineering</div>
+                <div class="skl-count">11 skills</div>
+              </div>
+              <span class="skl-chev">&#9660;</span>
+            </div>
+            <div class="skl-preview">GPT-4 / OpenAI &middot; Llama &middot; Mistral &middot; RAG &middot; Prompt Engineering &hellip;</div>
+            <div class="skl-panel"><div class="skl-panel-inner"><div class="skl-row">
+              <span class="skl-badge">GPT-4 / OpenAI</span><span class="skl-badge">Llama</span><span class="skl-badge">Mistral</span>
+              <span class="skl-badge">RAG</span><span class="skl-badge">Prompt Engineering</span><span class="skl-badge">Function Calling</span>
+              <span class="skl-badge">Structured Outputs</span><span class="skl-badge">Guardrails</span><span class="skl-badge">Hallucination Mitigation</span>
+              <span class="skl-badge">Hybrid Search</span><span class="skl-badge">Reranking</span>
+            </div></div></div>
+          </div>
+
+          <div class="skl-card c-green">
+            <div class="skl-card-head">
+              <span class="skl-icon">&#129302;</span>
+              <div>
+                <div class="skl-title">Agentic AI</div>
+                <div class="skl-count">7 skills</div>
+              </div>
+              <span class="skl-chev">&#9660;</span>
+            </div>
+            <div class="skl-preview">LangGraph &middot; AutoGen &middot; CrewAI &middot; MCP &hellip;</div>
+            <div class="skl-panel"><div class="skl-panel-inner"><div class="skl-row">
+              <span class="skl-badge">LangGraph</span><span class="skl-badge">AutoGen</span><span class="skl-badge">CrewAI</span>
+              <span class="skl-badge">MCP (Model Context Protocol)</span><span class="skl-badge">A2A Communication</span><span class="skl-badge">Multi-Agent Systems</span>
+              <span class="skl-badge">LangSmith</span>
+            </div></div></div>
+          </div>
+
+          <div class="skl-card c-cyan">
+            <div class="skl-card-head">
+              <span class="skl-icon">&#128202;</span>
+              <div>
+                <div class="skl-title">Data Engineering</div>
+                <div class="skl-count">6 skills</div>
+              </div>
+              <span class="skl-chev">&#9660;</span>
+            </div>
+            <div class="skl-preview">PySpark &middot; Apache Spark &middot; Pandas &middot; NumPy &hellip;</div>
+            <div class="skl-panel"><div class="skl-panel-inner"><div class="skl-row">
+              <span class="skl-badge">PySpark</span><span class="skl-badge">Apache Spark</span><span class="skl-badge">Pandas</span>
+              <span class="skl-badge">NumPy</span><span class="skl-badge">ETL / ELT Pipelines</span><span class="skl-badge">MLflow</span>
+            </div></div></div>
+          </div>
+
+          <div class="skl-card c-violet">
+            <div class="skl-card-head">
+              <span class="skl-icon">&#128269;</span>
+              <div>
+                <div class="skl-title">Vector Search &amp; Retrieval</div>
+                <div class="skl-count">3 skills</div>
+              </div>
+              <span class="skl-chev">&#9660;</span>
+            </div>
+            <div class="skl-preview">FAISS &middot; Pinecone &middot; Cosine Similarity</div>
+            <div class="skl-panel"><div class="skl-panel-inner"><div class="skl-row">
+              <span class="skl-badge">FAISS</span><span class="skl-badge">Pinecone</span><span class="skl-badge">Cosine Similarity</span>
+            </div></div></div>
+          </div>
+
+          <div class="skl-card c-indigo">
+            <div class="skl-card-head">
+              <span class="skl-icon">&#128737;&#65039;</span>
+              <div>
+                <div class="skl-title">IBM watsonx Platform</div>
+                <div class="skl-count">5 skills</div>
+              </div>
+              <span class="skl-chev">&#9660;</span>
+            </div>
+            <div class="skl-preview">watsonx.ai &middot; watsonx.data Intelligence &middot; IBM Knowledge Catalog &hellip;</div>
+            <div class="skl-panel"><div class="skl-panel-inner"><div class="skl-row">
+              <span class="skl-badge">watsonx.ai</span><span class="skl-badge">watsonx.data Intelligence</span><span class="skl-badge">IBM Knowledge Catalog</span>
+              <span class="skl-badge">watsonx Orchestrate</span><span class="skl-badge">Data Profiling &amp; Asset Lifecycle</span>
+            </div></div></div>
+          </div>
+
+          <div class="skl-card c-sky">
+            <div class="skl-card-head">
+              <span class="skl-icon">&#9729;&#65039;</span>
+              <div>
+                <div class="skl-title">Cloud Platforms</div>
+                <div class="skl-count">4 skills</div>
+              </div>
+              <span class="skl-chev">&#9660;</span>
+            </div>
+            <div class="skl-preview">AWS &middot; Azure &middot; Google Cloud &middot; IBM Cloud</div>
+            <div class="skl-panel"><div class="skl-panel-inner"><div class="skl-row">
+              <span class="skl-badge">AWS</span><span class="skl-badge">Azure</span><span class="skl-badge">Google Cloud</span><span class="skl-badge">IBM Cloud</span>
+            </div></div></div>
+          </div>
+
+          <div class="skl-card c-teal">
+            <div class="skl-card-head">
+              <span class="skl-icon">&#9889;</span>
+              <div>
+                <div class="skl-title">APIs &amp; Backend</div>
+                <div class="skl-count">3 skills</div>
+              </div>
+              <span class="skl-chev">&#9660;</span>
+            </div>
+            <div class="skl-preview">FastAPI &middot; REST APIs &middot; Microservices</div>
+            <div class="skl-panel"><div class="skl-panel-inner"><div class="skl-row">
+              <span class="skl-badge">FastAPI</span><span class="skl-badge">REST APIs</span><span class="skl-badge">Microservices</span>
+            </div></div></div>
+          </div>
+
+          <div class="skl-card c-slate">
+            <div class="skl-card-head">
+              <span class="skl-icon">&#9881;&#65039;</span>
+              <div>
+                <div class="skl-title">DevOps &amp; Deployment</div>
+                <div class="skl-count">6 skills</div>
+              </div>
+              <span class="skl-chev">&#9660;</span>
+            </div>
+            <div class="skl-preview">Docker &middot; Kubernetes &middot; Git &middot; GitHub Actions &hellip;</div>
+            <div class="skl-panel"><div class="skl-panel-inner"><div class="skl-row">
+              <span class="skl-badge">Docker</span><span class="skl-badge">Kubernetes</span><span class="skl-badge">Git</span>
+              <span class="skl-badge">GitHub Actions</span><span class="skl-badge">CI/CD</span><span class="skl-badge">Apache Airflow</span>
+            </div></div></div>
+          </div>
+
+          <div class="skl-card c-emerald">
+            <div class="skl-card-head">
+              <span class="skl-icon">&#128451;&#65039;</span>
+              <div>
+                <div class="skl-title">Databases</div>
+                <div class="skl-count">4 skills</div>
+              </div>
+              <span class="skl-chev">&#9660;</span>
+            </div>
+            <div class="skl-preview">MySQL &middot; PostgreSQL &middot; MongoDB &middot; Neo4j</div>
+            <div class="skl-panel"><div class="skl-panel-inner"><div class="skl-row">
+              <span class="skl-badge">MySQL</span><span class="skl-badge">PostgreSQL</span><span class="skl-badge">MongoDB</span><span class="skl-badge">Neo4j</span>
+            </div></div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="sec-certs">Certifications</h2>
+    <div class="cell">
+      <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:19 (&lt;1s)</span><span class="idx">7</span></div>
+      <div class="cell-body">
+        <div class="audit-toolbar">
+          <span>rows: 3</span><span>runtime: 0.04s</span>
+          <span class="live">&#9679; verified</span>
+        </div>
+        <table class="audit">
+          <tr><th>Certification</th><th>Issuer</th><th>Year</th><th>Status</th></tr>
+          <tr><td>AWS Certified Machine Learning Engineer &ndash; Associate</td><td>Amazon Web Services</td><td>2025</td><td class="verified">&#10003; verified</td></tr>
+          <tr><td>Big Data &amp; Advanced Analytics Specialization</td><td>IBM</td><td>&mdash;</td><td class="verified">&#10003; verified</td></tr>
+          <tr><td>Peer-Reviewed Publication &ndash; EEG Mental Health Classification</td><td>Academic Conference</td><td>&mdash;</td><td class="verified">&#10003; verified</td></tr>
+        </table>
+        <div class="audit-footer"><span>3 records</span><span>last synced just now</span></div>
+      </div>
+    </div>
+
+    <h2 class="section-title">Education</h2>
+    <div class="cell">
+      <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:20 (&lt;1s)</span><span class="idx">8</span></div>
+      <div class="cell-body">
+        <div class="edu-grid">
+          <div class="edu">
+            <div class="deg">M.S. &mdash; Computer Science / Data Science</div>
+            <div class="school">University of North Texas</div>
+          </div>
+          <div class="edu">
+            <div class="deg">B.Tech &mdash; Computer Science &amp; Engineering</div>
+            <div class="school">(fill in undergraduate institution)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="sec-contact">Contact</h2>
+    <div class="cell">
+      <div class="cell-head"><span class="play">&#9654;</span><span class="check">&#10003;</span><span class="ts">09:21 (&lt;1s)</span><span class="idx">9</span></div>
+      <div class="cell-body">
+        <div class="contact-grid">
+          <div class="contact-item"><div class="k">Email</div><div class="v"><a href="mailto:domakondashyamsudnar@gmail.com">domakondashyamsudnar@gmail.com</a></div></div>
+          <div class="contact-item"><div class="k">LinkedIn</div><div class="v"><a href="https://www.linkedin.com/in/shyam-sundar-domakonda" target="_blank" rel="noopener">linkedin.com/in/shyam-sundar-domakonda</a></div></div>
+          <div class="contact-item"><div class="k">GitHub</div><div class="v"><a href="https://github.com/ShyamSundar29" target="_blank" rel="noopener">github.com/ShyamSundar29</a></div></div>
+          <div class="contact-item"><div class="k">Medium</div><div class="v"><a href="https://medium.com/@domakondashyamsundar" target="_blank" rel="noopener">medium.com/@domakondashyamsundar</a></div></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <span>&copy; 2026 Shyam Sundar. All rights reserved.</span>
+  <span class="made">static build &middot; IBM Plex &middot; sample draft</span>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<div class="palette-overlay" id="palette-overlay">
+  <div class="palette">
+    <input type="text" id="palette-input" placeholder="Jump to a section… (about, experience, certs, contact)" autocomplete="off">
+    <div class="palette-list" id="palette-list"></div>
+  </div>
+</div>
+
+<div class="console" id="console">
+  <div class="console-head" id="console-head">
+    <span class="chev">&#9650;</span>
+    <span>execution log</span>
+    <span style="margin-left:auto; color:#5b6472;" id="console-count">0 events</span>
+  </div>
+  <div class="console-body" id="console-body"></div>
+</div>
+
+<script>
+(function(){
+  const toastEl = document.getElementById('toast');
+  let toastTimer;
+  function toast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=> toastEl.classList.remove('show'), 1800);
+  }
+
+  function timeLabel(){
+    const d = new Date();
+    let h = d.getHours(), m = d.getMinutes(), s = d.getSeconds();
+    return [h,m,s].map(n => n < 10 ? '0'+n : n).join(':');
+  }
+  function nowLabel(){
+    const d = new Date();
+    let h = d.getHours(), m = d.getMinutes();
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12; if(h === 0) h = 12;
+    return (h < 10 ? '0'+h : h) + ':' + (m < 10 ? '0'+m : m) + ' ' + ampm + ' (just ran)';
+  }
+
+  /* ---- Execution console ---- */
+  const consoleEl = document.getElementById('console');
+  const consoleBody = document.getElementById('console-body');
+  const consoleCount = document.getElementById('console-count');
+  const consoleHead = document.getElementById('console-head');
+  let eventCount = 0;
+
+  function logEvent(msg){
+    eventCount++;
+    consoleCount.textContent = eventCount + (eventCount === 1 ? ' event' : ' events');
+    const line = document.createElement('div');
+    line.className = 'console-line';
+    line.innerHTML = '<span class="time">' + timeLabel() + '</span><span class="ok">&#10003;</span> ' + msg;
+    consoleBody.appendChild(line);
+    consoleBody.scrollTop = consoleBody.scrollHeight;
+  }
+  consoleHead.addEventListener('click', () => consoleEl.classList.toggle('open'));
+  logEvent('page loaded — kernel ready');
+
+  /* ---- Cell execution animation ---- */
+  function runCell(cell){
+    return new Promise(resolve => {
+      const play = cell.querySelector('.play');
+      const check = cell.querySelector('.check');
+      const ts = cell.querySelector('.ts');
+      if(!play || cell.classList.contains('running')) { resolve(); return; }
+
+      cell.classList.add('running');
+      play.classList.add('spinning');
+      if(check) check.classList.add('pending');
+
+      const duration = 400 + Math.random()*450;
+      setTimeout(() => {
+        play.classList.remove('spinning');
+        if(check) check.classList.remove('pending');
+        if(ts) { ts.textContent = nowLabel(); ts.classList.add('fresh'); }
+        cell.classList.remove('running');
+        cell.classList.add('just-ran');
+        setTimeout(()=> cell.classList.remove('just-ran'), 900);
+        const label = cell.closest('main') ? (cell.querySelector('h1,h4,.job-title')?.textContent || 'cell') : 'cell';
+        logEvent('executed &mdash; ' + label.trim().slice(0,40));
+        resolve();
+      }, duration);
+    });
+  }
+
+  document.querySelectorAll('.cell').forEach(cell => {
+    const play = cell.querySelector('.play');
+    if(!play) return;
+    play.addEventListener('click', () => { runCell(cell).then(() => toast('Cell executed')); });
+  });
+
+  const runAllBtn = document.getElementById('run-all-btn');
+  const runAllLabel = document.getElementById('run-all-label');
+  runAllBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    if(runAllBtn.classList.contains('busy')) return;
+    runAllBtn.classList.add('busy');
+    runAllLabel.textContent = 'Running…';
+    const cells = Array.from(document.querySelectorAll('.cell'));
+    for(const cell of cells){
+      cell.scrollIntoView({ behavior:'smooth', block:'center' });
+      await runCell(cell);
+      await new Promise(r => setTimeout(r, 100));
+    }
+    runAllBtn.classList.remove('busy');
+    runAllLabel.textContent = 'Run all';
+    toast('All cells executed');
+  });
+
+  /* ---- Sidebar rail ---- */
+  const railLinks = document.querySelectorAll('.rail a[data-target]');
+  railLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.getElementById(link.dataset.target);
+      if(target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+  });
+  const sections = Array.from(railLinks).map(l => document.getElementById(l.dataset.target)).filter(Boolean);
+  const railObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        railLinks.forEach(l => l.classList.remove('active'));
+        const match = document.querySelector(`.rail a[data-target="${entry.target.id}"]`);
+        if(match) match.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => railObserver.observe(s));
+
+  /* ---- Dark mode toggle (in-memory only; a real deployment can persist via localStorage) ---- */
+  const themeBtn = document.getElementById('theme-btn');
+  themeBtn.addEventListener('click', () => {
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    themeBtn.innerHTML = isDark ? '&#9789;' : '&#9788;';
+    logEvent('theme switched to ' + (isDark ? 'light' : 'dark'));
+  });
+
+  /* ---- Command palette (Cmd/Ctrl + K) ---- */
+  const paletteOverlay = document.getElementById('palette-overlay');
+  const paletteInput = document.getElementById('palette-input');
+  const paletteList = document.getElementById('palette-list');
+  const paletteBtn = document.getElementById('palette-btn');
+
+  const paletteItems = [
+    { label:'About Me', icon:'&#9679;', target:'sec-about' },
+    { label:'Certifications & Badges', icon:'&#10003;', target:'sec-badges' },
+    { label:'Experience', icon:'&#128188;', target:'sec-experience' },
+    { label:'Research & Expertise', icon:'&#10022;', target:'sec-expertise' },
+    { label:'Skills', icon:'&#9670;', target:'sec-skills' },
+    { label:'Certifications', icon:'&#128196;', target:'sec-certs' },
+    { label:'Contact', icon:'&#9993;', target:'sec-contact' },
+    { label:'Run all cells', icon:'&#9654;', action: () => runAllBtn.click() },
+    { label:'Toggle dark mode', icon:'&#9789;', action: () => themeBtn.click() },
+  ];
+
+  let activeIdx = 0;
+  function renderPalette(filter){
+    const q = (filter || '').toLowerCase();
+    const matches = paletteItems.filter(i => i.label.toLowerCase().includes(q));
+    paletteList.innerHTML = '';
+    if(matches.length === 0){
+      paletteList.innerHTML = '<div class="palette-empty">No matches</div>';
+      return;
+    }
+    matches.forEach((item, idx) => {
+      const el = document.createElement('div');
+      el.className = 'palette-item' + (idx === activeIdx ? ' active' : '');
+      el.innerHTML = '<span class="pi-icon">' + item.icon + '</span>' + item.label;
+      el.addEventListener('click', () => selectPaletteItem(item));
+      paletteList.appendChild(el);
+    });
+  }
+  function selectPaletteItem(item){
+    closePalette();
+    if(item.action) item.action();
+    else if(item.target) document.getElementById(item.target)?.scrollIntoView({ behavior:'smooth', block:'start' });
+    logEvent('navigated via palette &rarr; ' + item.label);
+  }
+  function openPalette(){
+    paletteOverlay.classList.add('open');
+    paletteInput.value = '';
+    activeIdx = 0;
+    renderPalette('');
+    setTimeout(()=> paletteInput.focus(), 30);
+  }
+  function closePalette(){ paletteOverlay.classList.remove('open'); }
+
+  paletteBtn.addEventListener('click', openPalette);
+  paletteOverlay.addEventListener('click', (e) => { if(e.target === paletteOverlay) closePalette(); });
+  paletteInput.addEventListener('input', () => { activeIdx = 0; renderPalette(paletteInput.value); });
+  paletteInput.addEventListener('keydown', (e) => {
+    const visible = paletteList.querySelectorAll('.palette-item');
+    if(e.key === 'ArrowDown'){ e.preventDefault(); activeIdx = Math.min(activeIdx+1, visible.length-1); renderPalette(paletteInput.value); }
+    if(e.key === 'ArrowUp'){ e.preventDefault(); activeIdx = Math.max(activeIdx-1, 0); renderPalette(paletteInput.value); }
+    if(e.key === 'Enter'){
+      const q = paletteInput.value.toLowerCase();
+      const matches = paletteItems.filter(i => i.label.toLowerCase().includes(q));
+      if(matches[activeIdx]) selectPaletteItem(matches[activeIdx]);
+    }
+    if(e.key === 'Escape') closePalette();
+  });
+  document.addEventListener('keydown', (e) => {
+    if((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k'){
+      e.preventDefault();
+      paletteOverlay.classList.contains('open') ? closePalette() : openPalette();
+    }
+  });
+
+  /* ---- Expertise cards: click to expand, single-open, fixed uniform height via CSS ---- */
+  const expCards = document.querySelectorAll('#expertise-grid .exp-card');
+  expCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const isOpen = card.classList.contains('open');
+      expCards.forEach(other => other.classList.remove('open'));
+      if(!isOpen) card.classList.add('open');
+      const title = card.querySelector('.exp-title').textContent;
+      logEvent((isOpen ? 'collapsed' : 'expanded') + ' &mdash; ' + title);
+    });
+  });
+
+  /* ---- Skills cards: click to expand, single-open, fixed uniform height via CSS ---- */
+  const skillCards = document.querySelectorAll('#skills-grid .skl-card');
+  skillCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const isOpen = card.classList.contains('open');
+      skillCards.forEach(other => other.classList.remove('open'));
+      if(!isOpen) card.classList.add('open');
+      const title = card.querySelector('.skl-title').textContent;
+      logEvent((isOpen ? 'collapsed' : 'expanded') + ' skill group &mdash; ' + title);
+    });
+  });
+
+  /* ---- Live GitHub stats (real fetch, real data) ---- */
+  const ghStatus = document.getElementById('github-status');
+  const ghLiveDot = document.getElementById('gh-live-dot');
+  const ghNote = document.getElementById('gh-note');
+
+  fetch('https://api.github.com/users/ShyamSundar29')
+    .then(r => { if(!r.ok) throw new Error('rate-limited or unavailable'); return r.json(); })
+    .then(data => {
+      document.getElementById('gh-repos').textContent = data.public_repos ?? '—';
+      document.getElementById('gh-followers').textContent = data.followers ?? '—';
+      document.getElementById('gh-following').textContent = data.following ?? '—';
+      const since = data.created_at ? new Date(data.created_at).getFullYear() : '—';
+      document.getElementById('gh-since').textContent = since;
+      ghNote.textContent = 'Live from api.github.com — pulled just now, not hardcoded.';
+      ghStatus.innerHTML = '<span class="dot"></span> synced';
+      logEvent('GitHub API responded — live stats loaded');
+    })
+    .catch(err => {
+      ghNote.textContent = 'Could not reach the GitHub API right now (rate limit or offline) — this updates automatically once deployed and reloaded.';
+      ghLiveDot.classList.add('off');
+      ghLiveDot.textContent = '&#9679; offline';
+      ghStatus.innerHTML = '<span class="dot" style="background:var(--muted)"></span> offline';
+      logEvent('GitHub API unreachable — showing fallback state');
+    });
+})();
+</script>
+
+</body>
+</html>
